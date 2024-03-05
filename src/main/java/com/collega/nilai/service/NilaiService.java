@@ -9,9 +9,9 @@ public interface NilaiService {
 
     List<NilaiModel> getNilaiList();
 
-    NilaiModel getNilaiByNim(String nim);
+    NilaiModel getNilaiById(Long id);
 
-    void updateNilai(NilaiModel nilai);
+    NilaiModel updateNilai(NilaiModel nilai);
 
-    boolean deleteNilaiByNim(String nim);
+    NilaiModel deleteNilai(Long id);
 }

@@ -1,18 +1,34 @@
 package com.collega.nilai.model;
 
+import java.io.Serializable;
 
-public class NilaiModel{
-    private String nim;
-    private Integer mataKuliah;
-    private Integer nilai;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
+@Entity
+@Table(name = "nilai")
+public class NilaiModel implements Serializable {
 
-    public NilaiModel(String nim, Integer mataKuliah, Integer nilai){
-        this.nim = nim;
-        this.mataKuliah = mataKuliah;
-        this.nilai = nilai;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    public Long getId() {
+        return this.id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @NotNull
+    @Column(name = "nim", nullable = false)
+    private String nim;
 
     public String getNim() {
         return this.nim;
@@ -22,6 +38,10 @@ public class NilaiModel{
         this.nim = nim;
     }
 
+    @NotNull
+    @Column(name = "mata_kuliah", nullable = false)
+    private Integer mataKuliah;
+
     public Integer getMataKuliah() {
         return this.mataKuliah;
     }
@@ -30,6 +50,10 @@ public class NilaiModel{
         this.mataKuliah = mataKuliah;
     }
 
+    @NotNull
+    @Column(name = "nilai", nullable = false)
+    private Integer nilai;
+
     public Integer getNilai() {
         return this.nilai;
     }
@@ -37,8 +61,5 @@ public class NilaiModel{
     public void setNilai(Integer nilai) {
         this.nilai = nilai;
     }
-
-
-
 
 }

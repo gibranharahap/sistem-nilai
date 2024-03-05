@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"></html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet"  th:href="@{main.css}">
+    <link rel="stylesheet" th:href="@{main.css}" />
     <title>Pemeliharaan Nilai Mahasiswa</title>
   </head>
   <body>
@@ -11,9 +11,9 @@
     <div class="row">
       <div class="column">
         <h3>Data Nilai</h3>
-        <form action="#"  th:action="@{/nilai_add}" th:object="${nilai}" method="POST">
+        <form action="#" th:action="@{/add}" th:object="${nilai}" method="POST">
           NIM <br />
-          <input type="text" th:field="*{nim}" required/>
+          <input type="number" th:field="*{nim}" required />
           <br /><br />
           Mata Kuliah <br />
           <select th:field="*{mataKuliah}">
@@ -23,39 +23,47 @@
           </select>
           <br /><br />
           Nilai <br />
-          <input type="number" id="nilai1" th:field="*{nilai}" min="0" max="100" required/>
+          <input type="number" th:field="*{nilai}" min="0" max="100" required />
           <br /><br />
           GRADE <br />
-          <input type="text" id="grade1" disabled="disabled" />
+          <input type="text" disabled="disabled" />
           <br /><br />
           <button type="submit">Save</button>
           <button type="reset">Reset</button>
         </form>
       </div>
       <div class="column">
-        <h3>Daftar Nilai</h2>
+        <h3>Daftar Nilai</h3>
         <div th:each="listNilai: ${listNilai}">
           <h3 th:text="'NIM: ' + ${listNilai.nim}"></h3>
-          <h3 th:if="${listNilai.mataKuliah == 0}">Mata Kuliah : MATEMATIKA</h3>
-          <h3 th:if="${listNilai.mataKuliah == 1}">Mata Kuliah : B. INGGRIS</h3>
-          <h3 th:if="${listNilai.mataKuliah == 2}">Mata Kuliah : ALGORITMA</h3>
+          <h3 th:if="${listNilai.mataKuliah == 0}">Mata Kuliah: MATEMATIKA</h3>
+          <h3 th:if="${listNilai.mataKuliah == 1}">Mata Kuliah: B. INGGRIS</h3>
+          <h3 th:if="${listNilai.mataKuliah == 2}">Mata Kuliah: ALGORITMA</h3>
           <h3 th:text="'Nilai: ' + ${listNilai.nilai}"></h3>
-          <!-- <td class="text-center"><a th:href="@{/nilai/{nim}(nim=${listNilai.nim})}">Delete</a></td> -->
-          <form th:action="@{/nilai_edit/{nim}(nim=${listNilai.nim})}" th:object="${listNilai}" method = "POST">
-            <input type="hidden" name="nim" th:value="*{nim}"/>
-            <input type="hidden" name="mataKuliah" th:value="*{mataKuliah}"/>
-            Nilai <br>
-            <input type="number" name="nilai" th:value="*{nilai}"/>
-            <br><br>
+          <form
+            th:action="@{/edit/} + ${listNilai.id}"
+            th:object="${listNilai}"
+            method="POST"
+          >
+            <input type="hidden" name="id" th:value="*{id}" />
+            <input type="hidden" name="nim" th:value="*{nim}" />
+            <input type="hidden" name="mataKuliah" th:value="*{mataKuliah}" />
+            Nilai <br />
+            <input
+              type="number"
+              name="nilai"
+              th:value="*{nilai}"
+              min="0"
+              max="100"
+              required
+            />
+            <br /><br />
             <button type="submit">Edit</button>
-            <td><a th:href="@{/nilai/{nim}(nim=${listNilai.nim})}">Delete</a></td>
+            <td><a th:href="@{/delete/{id}(id=${listNilai.id})}">Delete</a></td>
           </form>
           <hr />
         </div>
       </div>
     </div>
-
-    <script th:src="@{/main.js}"></script>
-
   </body>
 </html>

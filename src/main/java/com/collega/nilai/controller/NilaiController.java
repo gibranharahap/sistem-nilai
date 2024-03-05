@@ -8,12 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.collega.nilai.model.NilaiModel;
 import com.collega.nilai.service.NilaiService;
-
 
 @Controller
 public class NilaiController {
@@ -21,41 +19,34 @@ public class NilaiController {
     @Autowired
     private NilaiService nilaiService;
 
-    // @RequestMapping("/")
-    // public String home(){
-
-    //     return "nilai";
-    // }
-
-    @RequestMapping("/nilai")
-    public String listNilai(Model model){
+    @GetMapping("/nilai")
+    public String listNilai(Model model) {
         List<NilaiModel> listNilai = nilaiService.getNilaiList();
 
-        NilaiModel nilai = new NilaiModel(null, null, null);
-        
+        NilaiModel nilai = new NilaiModel();
+
         model.addAttribute("nilai", nilai);
         model.addAttribute("listNilai", listNilai);
 
         return "nilai";
     }
 
-    @RequestMapping(value = "/nilai_add", method = RequestMethod.POST)
+    @PostMapping(value = "/add")
     public String addNilai(@ModelAttribute NilaiModel nilai) {
         nilaiService.addNilai(nilai);
         return "redirect:/nilai";
     }
 
-    @RequestMapping(value="/nilai_edit/{nim}", method = RequestMethod.POST)
-    public String editNilai(@PathVariable String nim, @ModelAttribute NilaiModel nilai) {
+    @PostMapping(value = "/edit/{id}")
+    public String editNilai(@PathVariable Long id, @ModelAttribute NilaiModel nilai) {
         nilaiService.updateNilai(nilai);
         return "redirect:/nilai";
     }
-    
-    @GetMapping("/nilai/{nim}")
-    public String deleteNilai(@PathVariable String nim) {
-        nilaiService.deleteNilaiByNim(nim);
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteNilai(@PathVariable Long id) {
+        nilaiService.deleteNilai(id);
         return "redirect:/nilai";
     }
-    
-    
+
 }
